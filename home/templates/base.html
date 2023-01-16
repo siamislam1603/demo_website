@@ -102,6 +102,40 @@
       .text-cream{
         color:#EDF1BC;
       }
+      .view-details-img-continer{
+        width:100%;
+        position:relative;
+        padding-top:75%;
+      }
+      .view-details-img{
+        position: absolute;
+        top: 0;
+      }
+      .view-details-title{
+        position:relative;
+      }
+      .view-details-title::after{
+        position: absolute;
+        bottom: 8px;
+        z-index: -1;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        content: '';
+        border-bottom: 10px solid #EDF1BC;
+      }
+      .overflow-text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .clamp-1{
+        -webkit-line-clamp:1;
+      }
+      .clamp-4{
+        -webkit-line-clamp: 4;
+      }
     </style>
   </head>
   <body>

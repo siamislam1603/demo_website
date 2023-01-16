@@ -59,37 +59,55 @@ hr {
 {% block body %}
 
 <div class="bgimg">
-<!--  <div class="topleft">-->
-<!--    <p>Logo</p>-->
-<!--  </div>-->
-
-     <div class="middle">
-       <a href="/bangla/">Proceed to Detection
-        </a>
-
-       <img src="/media/{{det.image_1}}" class="card-img-top" alt="..." width="20px" height="100px">
-       <img src="/media/{{det.image_2}}" class="card-img-top" alt="..." width="20px" height="100px">
-
-        <video width="320" height="240" autoplay muted>
-        <source src="/media/{{det.video}}" type="video/mp4">
-      <!--  <source src="movie.ogg" type="video/ogg">-->
-<!--        Your browser does not support the video tag.-->
-        </video>
-
+  <!--  <div class="topleft">-->
+  <!--    <p>Logo</p>-->
+  <!--  </div>-->
+  <div class="container mt-3">
+      <div class="row">
+        <div class="col-md-4">
+          <img src="/media/{{det.image_1}}" class="img-fluid" alt="...">
+        </div>
+        <div class="col-md-8 mb-5">
+          <div class='fw-600 view-details-title overflow-text clamp-1'>Lorem ipsum dolor sit amet.</div>
+          <small class="text-muted fs-6 overflow-text clamp-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id consectetur repudiandae eveniet asperiores minus commodi odit iste quae libero! Quis voluptatum inventore rerum enim provident nihil, consequatur ad maiores minus!</small>
+        </div>
+        <div class="col-md-8 mb-5">
+          <div class='fw-600 view-details-title overflow-text clamp-1'>Lorem ipsum dolor sit amet.</div>
+          <small class="text-muted fs-6 overflow-text clamp-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id consectetur repudiandae eveniet asperiores minus commodi odit iste quae libero! Quis voluptatum inventore rerum enim provident nihil, consequatur ad maiores minus!</small>
+        </div>
+        <div class="col-md-4">
+          <video class="ratio ratio-4x3" autoplay muted>
+            <source src="/media/{{det.video}}" type="video/mp4">
+          <!--  <source src="movie.ogg" type="video/ogg">-->
+    <!--        Your browser does not support the video tag.-->
+            </video>
+        </div>
+        <div class="col-md-4">
+          <img src="/media/{{det.image_2}}" class="img-fluid" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class='fw-600 view-details-title overflow-text clamp-1'>Lorem ipsum dolor sit amet.</div>
+          <small class="text-muted fs-6 overflow-text clamp-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id consectetur repudiandae eveniet asperiores minus commodi odit iste quae libero! Quis voluptatum inventore rerum enim provident nihil, consequatur ad maiores minus!</small>
+          <div class="start-btn">
+            <a href="/english/" class='btn btn-sm purple-btn'>Proceed to Detection
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-
-<!--   <video width="320" height="240" controls>-->
-<!--  <source src="/media/{{det.video}}" type="video/mp4">-->
-<!--&lt;!&ndash;  <source src="movie.ogg" type="video/ogg">&ndash;&gt;-->
-<!--Your browser does not support the video tag.-->
-<!--</video>-->
-
-<!--  <div class="topleft">-->
-<!--    <img src="/media/{{det.image}}" class="card-img-top" alt="...">-->
-<!--  </div>-->
-
-
-  </div>
+  
+  <!--   <video width="320" height="240" controls>-->
+  <!--  <source src="/media/{{det.video}}" type="video/mp4">-->
+  <!--&lt;!&ndash;  <source src="movie.ogg" type="video/ogg">&ndash;&gt;-->
+  <!--Your browser does not support the video tag.-->
+  <!--</video>-->
+  
+  <!--  <div class="topleft">-->
+  <!--    <img src="/media/{{det.image}}" class="card-img-top" alt="...">-->
+  <!--  </div>-->
+  
+  
+    </div>
 
 
 {% endblock %}
