@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+
+<form>{% csrf_token %}
+</form>
+<html>
+  <head>
+    <title>Video WebRTC</title>
+  </head>
+
+  <body>
+    <video
+      autoplay
+      style="border: 1px solid black; height: 80vh; width: 100%"
+    ></video>
+
+    <script src="{% static 'index.js' %}"></script>
+  </body>
+</html>

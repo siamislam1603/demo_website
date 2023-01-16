@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %} Website {% endblock %}
+{% block homeactive %} active {% endblock homeactive %}
+
+{% block css %}
+
+/* Set height to 100% for body and html to enable the background image to cover the whole page: */
+body, html {
+  height: 100%
+}
+
+.search {
+  /* Background image */
+  background-image: bg.jpg;
+  /* Full-screen */
+  height: 10%;
+  /* Center the background image */
+  background-position: center;
+  /* Scale and zoom in the image */
+  background-size: cover;
+  /* Add position: relative to enable absolutely positioned elements inside the image (place text) */
+  position: relative;
+  /* Add a white text color to all elements inside the .bgimg container */
+  color: white;
+  /* Add a font */
+  font-family: "Courier New", Courier, monospace;
+  /* Set the font-size to 25 pixels */
+  font-size: 25px;
+}
+
+
+/* Position text in the middle */
+.middle {
+position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Style the <hr> element */
+hr {
+  margin: auto;
+  width: 40%;
+}
+
+{% endblock %}
+{% block body %}
+<div class="search">
+    <div class="middle">
+<form class="d-flex" method="POST" action="/search/"> {% csrf_token %}
+              <input class="form-control me-2" type="search" placeholder="Search" name="searched" id="searched" aria-label="Search">
+              <button href="/search/" class="btn btn-outline-secondary" type="submit">Search</button>
+            </form>
+
+
+    </div>
+</div>
+
+
+<div class="container mt-5 mb-3">
+
+<!--<button class="start-btn"><a href="/add_blogs/">Add New Blog-->
+<!--        </a></button>-->
+
+
+    <div class="row">
+
+        {% for post in posts %}
+        <div class="col-lg-4 my-4">
+            <div class="card shadow" style="width: 20rem; height: 33rem;">
+                <img src="/media/{{post.image}}" class="card-img-top" alt="..." height="250px">
+                <div class="card-body">
+                  <h5 class="card-title">{{post.title}} <br><small>by {{post.author}}</small></h5>
+                  <p class="card-text">{{post.content| truncatechars:210}}</p>
+                  <a href="/blog/{{post.slug}}" class="btn btn-primary">Read More {% if user.is_superuser %}<a href="delete_blog_post/{{post.slug}}/" class="btn btn-danger mx-4">Delete Blog</a>{% endif %}</a>
+                </div>
+              </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+{% block js %} 
+<script></script>
+{% endblock %}

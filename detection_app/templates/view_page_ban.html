@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %} Add Question {% endblock %}
+
+{% block css %}
+
+/* Set height to 100% for body and html to enable the background image to cover the whole page: */
+body, html {
+  height: 100%
+}
+
+.bgimg {
+  /* Background image */
+  background-image: /img.jpg;
+  /* Full-screen */
+  height: 100%;
+  /* Center the background image */
+  background-position: center;
+  /* Scale and zoom in the image */
+  background-size: cover;
+  /* Add position: relative to enable absolutely positioned elements inside the image (place text) */
+  position: relative;
+  /* Add a white text color to all elements inside the .bgimg container */
+  color: black;
+  /* Add a font */
+  font-family: "Courier New", Courier, monospace;
+  /* Set the font-size to 25 pixels */
+  font-size: 25px;
+}
+
+/* Position text in the top-left corner */
+.topleft {
+  position: absolute;
+  top: 0;
+  left: 16px;
+}
+
+/* Position text in the bottom-left corner */
+.bottomleft {
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+}
+
+/* Position text in the middle */
+.middle {
+position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Style the <hr> element */
+hr {
+  margin: auto;
+  width: 40%;
+}
+{% endblock %}
+{% block body %}
+
+<div class="bgimg">
+<!--  <div class="topleft">-->
+<!--    <p>Logo</p>-->
+<!--  </div>-->
+
+     <div class="middle">
+       <a href="/bangla/">Proceed to Detection
+        </a>
+
+       <img src="/media/{{det.image_1}}" class="card-img-top" alt="..." width="20px" height="100px">
+       <img src="/media/{{det.image_2}}" class="card-img-top" alt="..." width="20px" height="100px">
+
+        <video width="320" height="240" autoplay muted>
+        <source src="/media/{{det.video}}" type="video/mp4">
+      <!--  <source src="movie.ogg" type="video/ogg">-->
+<!--        Your browser does not support the video tag.-->
+        </video>
+
+    </div>
+
+<!--   <video width="320" height="240" controls>-->
+<!--  <source src="/media/{{det.video}}" type="video/mp4">-->
+<!--&lt;!&ndash;  <source src="movie.ogg" type="video/ogg">&ndash;&gt;-->
+<!--Your browser does not support the video tag.-->
+<!--</video>-->
+
+<!--  <div class="topleft">-->
+<!--    <img src="/media/{{det.image}}" class="card-img-top" alt="...">-->
+<!--  </div>-->
+
+
+  </div>
+
+
+{% endblock %}

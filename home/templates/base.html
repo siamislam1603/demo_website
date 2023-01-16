@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <title>{% block title %} {% endblock %}</title>
+
+    <style>
+      {% block css %}
+      {% endblock %}
+      .fw-600{
+        font-weight:600;
+      }
+      .nav-link.active{
+        font-weight:500;
+        text-decoration:underline;
+      }
+      .nav-link:hover{
+        text-decoration:underline;
+        transition:all .3s ease-out;
+      }
+      .purple-btn{
+        background-color:#896EC5;
+        color:white;
+        border-radius:5px;
+      }
+      .purple-btn:hover{
+        border:1px solid #896EC5;
+        color: #896EC5;
+        background-color:transparent;
+        text-decoration:none;
+      }
+      .start-btn{
+        border:0;
+        background-color:transparent;
+      }
+      .ash-btn{
+        background-color:#DDDDDD;
+        color:black;
+        border-radius:5px;
+      }
+      .ash-btn:hover{
+        opacity:.7;
+        color:black;
+        text-decoration:underline;
+        transition:all .3s ease-out;
+      }
+      .authentication-card{
+        background-color:#5BA2AF;
+        border-radius:5px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+      }
+      @media (min-width: 768px) {
+        .authentication-card{
+          width:600px;
+        }
+      }
+      .text-underline-cream{
+        text-decoration:underline;
+        text-decoration-color:#EDF1BC;
+      }
+      .text-black{
+        color:black;
+      }
+      .text-cream{
+        color:#EDF1BC;
+      }
+    </style>
+  </head>
+  <body>
+    <!--    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">-->
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-600" href="#">GRS Bengali</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="container mx-3">
+            <ul class="navbar-nav justify-content-end mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a
+                  class="nav-link {% block homeactive %} {% endblock homeactive %}"
+                  aria-current="page"
+                  href="/"
+                  >Home</a
+                >
+              </li>
+              {% if user.is_authenticated %}
+              <!--              <li class="nav-item">-->
+              <!--                <a class="nav-link active" href="#">Hello {{request.user}}</a>-->
+              <!--&lt;!&ndash;              </li>&ndash;&gt;-->
+              <!--&lt;!&ndash;              <li class="nav-item">&ndash;&gt;-->
+              <!--&lt;!&ndash;                <a class="nav-link {% block profileactive %} {% endblock profileactive %}" href="/profile/">Profile</a>&ndash;&gt;-->
+              <!--&lt;!&ndash;              </li>&ndash;&gt;-->
+
+              <!--              </li>-->
+
+              {% if user.is_superuser %}
+              <li class="nav-item">
+                <a
+                  class="nav-link {% block blogactive %} {% endblock blogactive %}"
+                  href="/blog/"
+                  >Blogs</a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a
+                  class="nav-link {% block detactive %} {% endblock detactive %}"
+                  aria-current="page"
+                  href="/det/"
+                  >Detection</a
+                >
+              </li>
+              <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                  <li class="nav-item dropdown">
+                    <a
+                      class="nav-link dropdown-toggle"
+                      href="#"
+                      id="navbarDarkDropdownMenuLink"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Quiz Management
+                    </a>
+                    <ul
+                      class="dropdown-menu dropdown-menu"
+                      aria-labelledby="navbarDarkDropdownMenuLink"
+                    >
+                      <li>
+                        <a class="dropdown-item" href="/add_quiz/">Add Quiz</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/add_question/"
+                          >Add Questions</a
+                        >
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/results/"
+                          >Results of the Users</a
+                        >
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              {% else %}
+
+              <li class="nav-item">
+                <div class="collapse navbar-collapse" id="blog_drop">
+                  <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                      <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="blog_drop_menu"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Blog
+                      </a>
+                      <ul
+                        class="dropdown-menu dropdown-menu"
+                        aria-labelledby="navbarDarkDropdownMenuLink"
+                      >
+                        <li>
+                          <a class="dropdown-item" href="/blog/">Blogs</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="/add_blogs/"
+                            >Add New Blog</a
+                          >
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <!--              <li class="nav-item">-->
+              <!--                <a class="nav-link {% block add_blogs_active %} {% endblock add_blogs_active %}" href="/add_blogs/">Add Blogs</a>-->
+              <!--              </li>-->
+
+              <!--              <li class="nav-item">-->
+              <!--              <div class="collapse navbar-collapse" id="Quiz_drop">-->
+              <!--                    <ul class="navbar-nav">-->
+              <!--                      <li class="nav-item dropdown">-->
+              <!--                        <a class="nav-link dropdown-toggle" href="#" id="Quiz_drop_menu" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+              <!--                          Quiz-->
+              <!--                        </a>-->
+              <!--                        <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">-->
+              <!--                          <li><a class="dropdown-item" href="/quiz/">Quiz</a></li>-->
+              <!--                          <li><a class="dropdown-item" href="/leaderboard/">LeaderBoard</a></li>-->
+
+              <!--                        </ul>-->
+              <!--                      </li>-->
+              <!--                    </ul>-->
+              <!--                  </div>-->
+
+              <!--              </li>-->
+
+              <li class="nav-item">
+                <a
+                  class="nav-link {% block quiz_active %} {% endblock quiz_active %}"
+                  href="/leaderboard/"
+                  >LeaderBoard</a
+                >
+              </li>
+
+              {% endif %} {% if request.path != '/' %}
+              <li class="nav-item">
+                <a class="nav-link" href="/logout/">Logout</a>
+              </li>
+              {%endif%}
+
+              <!--              <form class="d-flex" method="POST" action="/search/"> {% csrf_token %}-->
+              <!--              <input class="form-control me-2" type="search" placeholder="Search" name="searched" id="searched" aria-label="Search">-->
+              <!--              <button href="/search/" class="btn btn-outline-secondary" type="submit">Search</button>-->
+              <!--            </form>-->
+              {% else %} {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+    {% block body %} {% endblock %}
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    {% block js %} {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %} Add Question {% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+<!--  <form action=" " method="POST"> {% csrf_token %}-->
+<!--    {{ form.as_p }}-->
+<!--    <button type="submit" class="btn btn-info">Submit</button>-->
+<!--  </form>-->
+<!--  <br>-->
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Detection class</th>
+        <th>First Image</th>
+        <th>Second Image</th>
+        <th>Video</th>
+      </tr>
+    </thead>
+    {% for detection in detections %}
+    <tr>
+      <td><a href="/det/{{detection.slug}}/">{{detection.detection_name}}</a></td>
+      <td>{{detection.image_1}}</td>
+      <td>{{detection.image_2}}</td>
+      <td>{{detection.video}}</td>
+      <td><a href="/delete_detection/{{detection.id}}/" class="btn btn-danger">Delete</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

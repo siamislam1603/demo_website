@@ -1,0 +1,126 @@
+{% extends 'base.html' %} {% block title %} GRS Bengali {% endblock %}
+<!--{% block homeactive %} active {% endblock homeactive %}-->
+
+{% block css %} /* Set height to 100% for body and html to enable the background
+image to cover the whole page: */ body, html { height: 100% } .bgimg { /*
+Background image */ background-image: /img.jpg; /* Full-screen */ height: 100%;
+/* Center the background image */ background-position: center; /* Scale and zoom
+in the image */ background-size: cover; /* Add position: relative to enable
+absolutely positioned elements inside the image (place text) */ position:
+relative; /* Add a white text color to all elements inside the .bgimg container
+*/ color: black; /* Add a font */ font-family: "Courier New", Courier,
+monospace; /* Set the font-size to 25 pixels */ font-size: 25px; } /* Position
+text in the top-left corner */ .topleft { position: absolute; top: 0; left:
+16px; } /* Position text in the bottom-left corner */ .bottomleft { position:
+absolute; bottom: 0; left: 16px; } /* Position text in the middle */ .middle {
+position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+text-align: center; } /* Style the
+<hr />
+element */ hr { margin: auto; width: 40%; } {% endblock %} {% block body %}
+
+<!--&lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; WELCOME SCREEN -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+<!--&lt;!&ndash;<div class='screen' id='welcome-screen'>&ndash;&gt;-->
+<!--&lt;!&ndash;    <h1>Hi, User!</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;    <h4>What do you want to learn today ?</h4>&ndash;&gt;-->
+<!--    <button class="start-btn">Start</button>-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<div class="bgimg">
+  <!--  <div class="topleft">-->
+  <!--    <p>Logo</p>-->
+  <!--  </div>-->
+
+  {% if user.is_superuser %}
+
+  <div class="middle">
+    <h1>Hi, {{request.user}}</h1>
+    <hr />
+    <p>You are an Admin</p>
+  </div>
+  {% else %} {% if user.is_authenticated %}
+  <div class="middle">
+    <h1>Hi, <span class="fw-bold">{{request.user}}</span></h1>
+    <hr />
+    <p>What do you want to learn today ?</p>
+    <button class="start-btn">
+      <a
+        class="nav-link purple-btn {% block banglaactive %} {% endblock banglaactive %}"
+        href="/view_det_ban/"
+        >Bengali
+      </a>
+    </button>
+    <button class="start-btn">
+      <a
+        class="nav-link purple-btn {% block englishactive %} {% endblock englishactive %}"
+        href="/view_det_eng/"
+        >English
+      </a>
+    </button>
+    <button class="start-btn">
+      <a
+        class="nav-link purple-btn {% block numberactive %} {% endblock numberactive %}"
+        href="/view_det_num/"
+        >Number
+      </a>
+    </button>
+  </div>
+
+  {% else %}
+  <div class="middle">
+    <h1>Hi, User</h1>
+
+    <!--     <button class="start-btn"><a class="nav-link {% block registeractive %} {% endblock registeractive %}" href="/register/">Register</a></button>-->
+    <hr />
+    <p>Please Log In or Register</p>
+    <button class="start-btn">
+      <a
+        class="nav-link {% block loginactive %} {% endblock loginactive %}"
+        href="/login/"
+        >Log In
+      </a>
+    </button>
+
+    <button class="start-btn">
+      <a
+        class="nav-link {% block signupactive %} {% endblock signupactive %}"
+        href="/register/"
+        >Sign Up
+      </a>
+    </button>
+  </div>
+  <!--   </li>-->
+
+  <!--   </li>-->
+
+  {% endif %} {% endif %}
+</div>
+
+<!--  <div class="bottomleft">-->
+<!--    <p>Some text</p>-->
+<!--  </div>-->
+
+<!--<div class="container mt-5 mb-3">-->
+
+<!--    <div class="row">-->
+<!--        {% for post in posts %}-->
+<!--        <div class="col-lg-4 my-4">-->
+<!--            <div class="card shadow" style="width: 20rem; height: 33rem;">-->
+<!--                <img src="/media/{{post.image}}" class="card-img-top" alt="..." height="250px">-->
+<!--                <div class="card-body">-->
+<!--                  <h5 class="card-title">{{post.title}} <br><small>by {{post.author}}</small></h5>-->
+<!--                  <p class="card-text">{{post.content| truncatechars:210}}</p>-->
+<!--                  <a href="blog/{{post.slug}}" class="btn btn-primary">Read More {% if user.is_superuser %}<a href="delete_blog_post/{{post.slug}}/" class="btn btn-danger mx-4">Delete Blog</a>{% endif %}</a>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--</div>-->
+<div class='container pb-4 fixed-bottom'>
+  <div class='d-flex justify-content-end'>
+    <a class="nav-link btn btn-sm ash-btn" href="/logout/">Logout</a>
+  </div>
+</div>
+{% endblock %} {% block js %}
+<script></script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %} Login Page {% endblock %}
+{% block loginactive %} active {% endblock loginactive %}
+
+{% block css %}
+body{
+  background: linear-gradient(0deg, rgba(0,168,150,1) 0%, rgba(2,147,151,1) 66%, rgba(5,102,154,1) 96%);
+  height:100vh;
+}
+{% endblock %}
+{% block body %}
+<div class="container row">
+    <div class='authentication-card py-4 px-2'>
+      <h1 class='text-white text-center'>Sign In <span class='text-black'><span class='text-underline-cream'>GRS</span> Bengali</span></h1>
+      <form action="/login/" method="POST"> {% csrf_token %}
+        <div class="container mt-3">
+          <div class="mb-3">
+            <label for="username" class="form-label text-white">Username</label>
+            <input type="text" class="form-control" id="username" name="username">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label text-white">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-white">Not registered? <a class='text-white text-decoration-underline' href="/register/">Sign up now!</a></div>
+            <button type="submit" class="btn purple-btn">Login</button>
+          </div>
+          <a class="text-cream" href='#'>Forgot Password?</a>
+      </div>
+      </form>
+    </div>
+</div>
+{% endblock %}
