@@ -6,12 +6,14 @@
 {% block css %}
 body{
     background: linear-gradient(0deg, rgba(0,168,150,1) 0%, rgba(2,147,151,1) 66%, rgba(5,102,154,1) 96%);
-    height:100vh;
+    height:100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 {% endblock %}
 {% block body %}
-<div class="container row">
-    <div class="authentication-card py-4 px-2">
+<div class="d-flex justify-content-center authentication-contianer align-items-center">
+    <div class="authentication-card py-4 px-2 my-5">
         <h1 class='text-white text-center'>Sign Up <span class='text-black'><span class='text-underline-cream'>GRS</span> Bengali</span></h1>
         <form action="/register/" method="POST"> {% csrf_token %}
             <div class="container mt-3">
@@ -41,7 +43,8 @@ body{
                         <input type="password" class="form-control" id="password2" name="password2">
                     </div>
                 </div>
-                <div class="d-flex justify-content-end align-items-center">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-white">Already have an account? <a class='text-white text-decoration-underline' href="/login/">Log In</a></div>
                     <button type="submit" class="btn purple-btn">Sign Up</button>
                 </div>
             </div>

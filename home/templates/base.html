@@ -29,6 +29,9 @@
     <style>
       {% block css %}
       {% endblock %}
+      html{
+        height: 100%;
+      }
       .fw-600{
         font-weight:600;
       }
@@ -55,6 +58,13 @@
         border:0;
         background-color:transparent;
       }
+      .blue-btn{
+        background-color: #05668d;
+      }
+      .blue-btn:hover{
+        color: #05668d;
+        border-color: #05668d;
+      }
       .ash-btn{
         background-color:#DDDDDD;
         color:black;
@@ -69,15 +79,18 @@
       .authentication-card{
         background-color:#5BA2AF;
         border-radius:5px;
-        position: absolute;
+        /* position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%); */
       }
       @media (min-width: 768px) {
         .authentication-card{
           width:600px;
         }
+      }
+      .authentication-container{
+        height: calc(100% - 56px);
       }
       .text-underline-cream{
         text-decoration:underline;
@@ -95,7 +108,7 @@
     <!--    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">-->
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
-        <a class="navbar-brand fw-600" href="#">GRS Bengali</a>
+        <a class="navbar-brand fw-600" href="/">GRS Bengali</a>
         <button
           class="navbar-toggler"
           type="button"

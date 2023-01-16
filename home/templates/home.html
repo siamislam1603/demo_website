@@ -67,14 +67,14 @@ element */ hr { margin: auto; width: 40%; } {% endblock %} {% block body %}
 
   {% else %}
   <div class="middle">
-    <h1>Hi, User</h1>
+    <h1>Hi, <span class="fw-600">User</span></h1>
 
     <!--     <button class="start-btn"><a class="nav-link {% block registeractive %} {% endblock registeractive %}" href="/register/">Register</a></button>-->
     <hr />
     <p>Please Log In or Register</p>
     <button class="start-btn">
       <a
-        class="nav-link {% block loginactive %} {% endblock loginactive %}"
+        class="nav-link purple-btn {% block loginactive %} {% endblock loginactive %}"
         href="/login/"
         >Log In
       </a>
@@ -82,7 +82,7 @@ element */ hr { margin: auto; width: 40%; } {% endblock %} {% block body %}
 
     <button class="start-btn">
       <a
-        class="nav-link {% block signupactive %} {% endblock signupactive %}"
+        class="nav-link purple-btn blue-btn {% block signupactive %} {% endblock signupactive %}"
         href="/register/"
         >Sign Up
       </a>
@@ -116,11 +116,13 @@ element */ hr { margin: auto; width: 40%; } {% endblock %} {% block body %}
 <!--        {% endfor %}-->
 <!--    </div>-->
 <!--</div>-->
+{% if user.is_authenticated %}
 <div class='container pb-4 fixed-bottom'>
   <div class='d-flex justify-content-end'>
     <a class="nav-link btn btn-sm ash-btn" href="/logout/">Logout</a>
   </div>
 </div>
+{% endif %}
 {% endblock %} {% block js %}
 <script></script>
 {% endblock %}
