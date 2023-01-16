@@ -21,6 +21,7 @@ urlpatterns = [
 #    user authentication
     path("register/", views.Register, name="register"),
     path("login/", views.Login, name="login"),
+    path("change_pass/", views.change_password, name="login"),
     path("logout/", views.Logout, name="logout"),
 
 #     streaming
@@ -31,6 +32,6 @@ urlpatterns = [
     # path('bangla_feed/', views.bangla_feed, name='bangla_feed'),
     path("english/", views.english_stream, name="english"),
     path("number/", views.number_stream, name="number"),
-    path('normal_feed/', views.normal_feed, name='normal_feed'),
+    # path('normal_feed/', views.normal_feed, name='normal_feed'),
     # path('number_feed/', views.number_feed, name='number_feed'),
 ]

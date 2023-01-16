@@ -52,9 +52,11 @@ def number_stream(request):
 # def number_feed(request):
 #     return StreamingHttpResponse(gen(bangla_det()),
 #                                  content_type='multipart/x-mixed-replace; boundary=frame')
-def normal_feed(request):
-    return StreamingHttpResponse(gen(test()),
-                                 content_type='multipart/x-mixed-replace; boundary=frame')
+# def normal_feed(request):
+#     return StreamingHttpResponse(gen(test()),
+#                                  content_type='multipart/x-mixed-replace; boundary=frame')
+#
+# def normal_feed(request):
 
 
 @login_required(login_url='/login')
@@ -132,20 +134,24 @@ def edit_profile(request):
     # request = urllib.request.Request(request, None, headers)
     try:
         profile = request.user.profile
-        print(profile)
+        # print(request.user.password)
     except Exception as e:
         profile = Profile(request)
         # print("profile created....")
+
+    print(request.method)
     if request.method == "POST":
+        print("Post Method")
         # form = ProfileForm(data=request.POST, files=request.FILES, instance=profile)
         form = ProfileForm(request.POST, request.FILES, profile)
-        # print(form)
+        print(form)
         if form.is_valid():
             form.save()
             alert = True
             return render(request, "edit_profile.html", {'alert': alert})
     else:
-        form = ProfileForm(profile)
+        print("Not post")
+        form = ProfileForm(instance = profile)
     return render(request, "edit_profile.html", {'form': form})
 
 
@@ -191,3 +197,16 @@ def Logout(request):
     logout(request)
     messages.success(request, "Successfully logged out")
     return redirect('/login')
+
+def change_password(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        # password = request.POST['confirmpassword']
+        from django.contrib.auth.models import User
+        u = User.objects.get(username__exact=username)
+        u.set_password(password)
+        u.save()
+
+    return render(request, "change_password.html")
+
