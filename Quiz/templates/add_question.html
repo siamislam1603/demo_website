@@ -14,6 +14,7 @@
         <th>Question</th>
         <th>Image</th>
         <th>Quiz</th>
+        <th>Add Options</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -22,6 +23,7 @@
       <td><a href="/add_options/{{question.slug}}/">{{question.content}}</a></td>
       <td>{{question.image}}</td>
       <td>{{question.quiz}}</td>
+      <td> <a href="/add_ans/{{question.id}}">Options</a> </td>
       <td><a href="/delete_question/{{question.id}}/" class="btn btn-danger">Delete</a></td>
     </tr>
     {% endfor %}

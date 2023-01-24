@@ -7,11 +7,14 @@ from django.contrib.auth.decorators import login_required
 from .forms import QuizForm, QuestionForm
 from django.forms import inlineformset_factory
 from django.views.generic import UpdateView
+import random
 
+
+# This is function is for running the server request active all the time
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
-
+# this function fetch all of the quiz and show in a table view
 def index(request):
     quiz = Quiz.objects.all()
     print("quiz",quiz)
@@ -19,35 +22,55 @@ def index(request):
     return render(request, "index_page.html", para)
 
 
-@login_required(login_url='/login')
+# this function get a specific quiz according to the detection that the user has chosen
+@login_required(login_url='/login')  # this line ensures that the quiz will be available only when a user gets logged in
 def quiz(request, slug):
-    quiz = Quiz.objects.get(slug=slug)
-    print(quiz.name)
+    quiz = Quiz.objects.get(slug=slug) # slug is the primary key based on which we search a specific quiz
+    # print(quiz.name)
     return render(request, "quiz.html", {'quiz': quiz})
 
 
-def quiz_data_view(request, myid):
-    quiz = Quiz.objects.get(id=myid)
+# this function takes a quiz and fetch all of the questions, options and images and send them to the html page
+def quiz_data_view(request, slug):
+    quiz = Quiz.objects.get(slug=slug)
 
     questions = []
+    images = []
+
     for q in quiz.get_questions():
         answers = []
+        images.append(q.image.url) # adding the images of each ques
         for a in q.get_answers():
-            answers.append(a.content)
+            # print(a)
+            answers.append(a.content) # adding all the options
+        try:
+            random.shuffle(answers) # shuffling options
+        except:
+            pass
         questions.append({str(q): answers})
+
+    temp = list(zip(questions, images))
+    random.shuffle(temp) # shuffling questions and answers
+    questions, images = zip(*temp)
+    print(images)
+
     return JsonResponse({
-        'data': questions,
+        'data': questions[:7], # sending only seven ques
         'time': quiz.time,
+        'images':images[:7],
     })
 
 
-def save_quiz_view(request, myid):
+# this function evaluate the quiz score
+def save_quiz_view(request, slug):
     if is_ajax(request):
         questions = []
         data = request.POST
         data_ = dict(data.lists())
 
         data_.pop('csrfmiddlewaretoken')
+        time_taken=int(data_['time_taken'][0])
+        data_.pop('time_taken')
 
         for k in data_.keys():
             print('key: ', k)
@@ -55,7 +78,7 @@ def save_quiz_view(request, myid):
             questions.append(question)
 
         user = request.user
-        quiz = Quiz.objects.get(id=myid)
+        quiz = Quiz.objects.get(slug=slug)
 
         score = 0
         marks = []
@@ -79,55 +102,12 @@ def save_quiz_view(request, myid):
             else:
                 marks.append({str(q): 'not answered'})
 
-        Marks_Of_User.objects.create(quiz=quiz, user=user, score=score)
+        Marks_Of_User.objects.create(quiz=quiz, user=user, score=score,time_taken=time_taken) # creating entry by using the user quiz score
 
-        return JsonResponse({'passed': True, 'score': score, 'marks': marks})
-
-
-def Signup(request):
-    if request.user.is_authenticated:
-        return redirect('/')
-    if request.method == "POST":
-        username = request.POST['username']
-        email = request.POST['email']
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        password = request.POST['password1']
-        confirm_password = request.POST['password2']
-
-        if password != confirm_password:
-            return redirect('/register')
-
-        user = User.objects.create_user(username, email, password)
-        user.first_name = first_name
-        user.last_name = last_name
-        user.save()
-        return render(request, 'login.html')
-    return render(request, "signup.html")
+        return JsonResponse({'passed': True, 'score': score, 'marks': marks, 'time_taken':time_taken})
 
 
-def Login(request):
-    if request.user.is_authenticated:
-        return redirect('/')
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect("/")
-        else:
-            return render(request, "login.html")
-    return render(request, "login.html")
-
-
-def Logout(request):
-    logout(request)
-    return redirect('/')
-
-
+# this added new quiz
 def add_quiz(request):
     quizs = Quiz.objects.all()
     quizs = Quiz.objects.filter().order_by('-id')
@@ -140,24 +120,13 @@ def add_quiz(request):
         form = QuizForm()
     return render(request, "add_quiz.html", {'form': form, 'quizs': quizs})
 
+# for deleting a quiz
 def delete_quiz(request, myid):
     quiz = Quiz.objects.get(id=myid)
     if request.method == "POST":
         quiz.delete()
         return redirect('/add_quiz')
     return render(request, "delete_quiz.html", {'question': quiz})
-
-# def add_quiz(request):
-#     if request.method == "POST":
-#         form = QuizForm(data=request.POST)
-#         if form.is_valid():
-#             quiz = form.save(commit=False)
-#             quiz.save()
-#             obj = form.instance
-#             return render(request, "add_quiz.html", {'obj': obj})
-#     else:
-#         form = QuizForm()
-#     return render(request, "add_quiz.html", {'form': form})
 
 
 def add_question(request):
@@ -191,31 +160,33 @@ class UpdatePostView(UpdateView):
     template_name = 'add_options.html'
     fields = ['content', 'slug', 'image', 'quiz']
 
-# def add_options(request, myid):
-#     question = Question.objects.get(id=myid)
-#     QuestionFormSet = inlineformset_factory(Question, Answer, fields=('content', 'correct', 'question'), extra=4)
-#     if request.method == "POST":
-#         formset = QuestionFormSet(request.POST, instance=question)
-#         if formset.is_valid():
-#             formset.save()
-#             alert = True
-#             return render(request, "add_options.html", {'alert': alert})
-#     else:
-#         formset = QuestionFormSet(instance=question)
-#     return render(request, "add_options.html", {'formset': formset, 'question': question})
+# multiple choices adding module for quizs
+def add_options(request, myid):
+    question = Question.objects.get(id=myid)
+    QuestionFormSet = inlineformset_factory(Question, Answer, fields=('content', 'correct', 'question'), extra=4)
+    if request.method == "POST":
+        formset = QuestionFormSet(request.POST, instance=question)
+        if formset.is_valid():
+            formset.save()
+            alert = True
+            return render(request, "add_ans.html", {'alert': alert})
+    else:
+        formset = QuestionFormSet(instance=question)
+    return render(request, "add_ans.html", {'formset': formset, 'question': question})
 
-
+# shows top 10 scores as leaderboard
 def LeaderBoard(request):
     marks = Marks_Of_User.objects.all()
-    marks = Marks_Of_User.objects.filter().order_by('-score')
+    marks = Marks_Of_User.objects.filter().order_by('-score')[:10]
     return render(request, "result_user.html", {'marks': marks})
 
+# result page for admin
 def results(request):
     marks = Marks_Of_User.objects.all()
     marks = Marks_Of_User.objects.filter().order_by('-score')
     return render(request, "results.html", {'marks': marks})
 
-
+# delete user result when logged in as an admin
 def delete_result(request, myid):
     marks = Marks_Of_User.objects.get(id=myid)
 

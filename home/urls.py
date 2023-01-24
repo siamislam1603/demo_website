@@ -14,24 +14,25 @@ urlpatterns = [
 
     
 #     profile
-    path("profile/", views.Profile, name="profile"),
+    path("profile/", views.Profile_v, name="profile"),
     path("edit_profile/", views.edit_profile, name="edit_profile"),
     path("user_profile/<int:myid>/", views.user_profile, name="user_profile"),
+    path("view_user/", views.view_user_account, name="user_view"),
+    path("delete_user/<str:username>/", views.delete_user, name="user_view"),
     
 #    user authentication
     path("register/", views.Register, name="register"),
     path("login/", views.Login, name="login"),
     path("change_pass/", views.change_password, name="login"),
     path("logout/", views.Logout, name="logout"),
+    path("verify/",views.Verify,name="verify"),
 
-#     streaming
-#     path("stream", views.stream_page, name="home2"),
 
+    # these paths are for sign lamguage detection
     path("bangla/", views.bangla_stream, name="bangla"),
-    # path('video_feed/', views.video_stream, name='video_feed'),
-    # path('bangla_feed/', views.bangla_feed, name='bangla_feed'),
+    path('video_feed/', views.video_stream, name='video_feed'),
+    path('bangla_feed/', views.bangla_feed, name='bangla_feed'),
     path("english/", views.english_stream, name="english"),
     path("number/", views.number_stream, name="number"),
-    # path('normal_feed/', views.normal_feed, name='normal_feed'),
-    # path('number_feed/', views.number_feed, name='number_feed'),
+    path('number_feed/', views.number_feed, name='number_feed'),
 ]

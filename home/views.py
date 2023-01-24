@@ -1,5 +1,5 @@
 import json
-
+from . import models
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -14,7 +14,7 @@ from django.contrib import messages
 # import numpy
 # import requests
 from django.http.response import StreamingHttpResponse
-# from .camera import VideoCamera,bangla_det,Number_detection
+from .camera import VideoCamera,bangla_det,Number_detection
 from .camera import test
 
 
@@ -40,23 +40,18 @@ def bangla_stream(request):
 
 def number_stream(request):
     return render(request, "streamapp/number.html")
-#
-# def bangla_feed(request):
-#     return StreamingHttpResponse(gen(Number_detection()),
-#                                  content_type='multipart/x-mixed-replace; boundary=frame')
-#
-# def video_stream(request):
-#     return StreamingHttpResponse(gen(VideoCamera()),
-#                                  content_type='multipart/x-mixed-replace; boundary=frame')
-#
-# def number_feed(request):
-#     return StreamingHttpResponse(gen(bangla_det()),
-#                                  content_type='multipart/x-mixed-replace; boundary=frame')
-# def normal_feed(request):
-#     return StreamingHttpResponse(gen(test()),
-#                                  content_type='multipart/x-mixed-replace; boundary=frame')
-#
-# def normal_feed(request):
+
+def bangla_feed(request):
+    return StreamingHttpResponse(gen(Number_detection()),
+                                 content_type='multipart/x-mixed-replace; boundary=frame')
+
+def video_stream(request):
+    return StreamingHttpResponse(gen(VideoCamera()),
+                                 content_type='multipart/x-mixed-replace; boundary=frame')
+
+def number_feed(request):
+    return StreamingHttpResponse(gen(bangla_det()),
+                                 content_type='multipart/x-mixed-replace; boundary=frame')
 
 
 @login_required(login_url='/login')
@@ -125,7 +120,7 @@ def user_profile(request, myid):
     return render(request, "user_profile.html", {'post': post})
 
 
-def Profile(request, *args, **kwargs):
+def Profile_v(request, *args, **kwargs):
     return render(request, "profile.html")
 
 
@@ -142,31 +137,78 @@ def edit_profile(request):
     print(request.method)
     if request.method == "POST":
         print("Post Method")
-        # form = ProfileForm(data=request.POST, files=request.FILES, instance=profile)
-        form = ProfileForm(request.POST, request.FILES, profile)
-        print(form)
+        profile = Profile(user=request.user)
+        form = ProfileForm(request.POST, request.FILES,instance=profile)
+        # form.fields['user'] = request.user
+
+        # print(form)
         if form.is_valid():
             form.save()
             alert = True
-            return render(request, "edit_profile.html", {'alert': alert})
+            return render(request, "edit_profile.html", {'alert': alert,'form': form})
     else:
-        print("Not post")
-        form = ProfileForm(instance = profile)
+        try:
+
+            form = ProfileForm(instance = profile)
+        except:
+            profile = Profile(request)
+            form = ProfileForm(profile)
     return render(request, "edit_profile.html", {'form': form})
+
+def view_user_account(request):
+    users = User.objects.all()
+    users = User.objects.filter().order_by('-id')
+    return render(request, "user_accounts.html", { 'users': users})
+
+
+def delete_user(request, username):
+
+    u = User.objects.get(username=username)
+
+    if request.method == "POST":
+        u = User.objects.get(username=username)
+        u.delete()
+        return redirect('/view_user/')
+
+    return render(request, "delete_user.html", {'user': u})
+
+
+import re
+
+
+# Define a function for
+# for validating an Email
+def check(s):
+    pat = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    if re.match(pat, s):
+        return False
+    else:
+        return True
 
 
 def Register(request):
+    alert = False
+    email_st = False
     if request.method == "POST":
         username = request.POST['username']
         email = request.POST['email']
+        if check(email):
+            email_st = True
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
 
         if password1 != password2:
+            alert = True
             messages.error(request, "Passwords do not match.")
-            return redirect('/register')
+            return render(request, "register.html",{'info':' Passwords do not match.','alert':alert})
+        if email_st:
+            messages.error(request, "Invalid Email.")
+            return render(request, "register.html", {'info': ' Invalid Email.', 'email': email_st})
+
+        else:
+            alert = False
 
         user = User.objects.create_user(username, email, password1)
         user.first_name = first_name
@@ -188,8 +230,10 @@ def Login(request):
             messages.success(request, "Successfully Logged In")
             return redirect("/")
         else:
+            alert = True
             messages.error(request, "Invalid Credentials")
-        return render(request, 'blog.html')
+            return render(request, "login.html",{'info':' Please enter valid info','alert':alert})
+        # return render(request, 'blog.html')
     return render(request, "login.html")
 
 
@@ -198,15 +242,29 @@ def Logout(request):
     messages.success(request, "Successfully logged out")
     return redirect('/login')
 
+def Verify(request):
+    return render(request,"verify.html")
+
 def change_password(request):
     if request.method == "POST":
         username = request.POST['username']
-        password = request.POST['password']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        if password1 != password2:
+            alert = True
+            messages.error(request, "Passwords do not match.")
+            return render(request, "change_password.html",{'info':' Passwords do not match.','alert':alert})
         # password = request.POST['confirmpassword']
         from django.contrib.auth.models import User
-        u = User.objects.get(username__exact=username)
-        u.set_password(password)
-        u.save()
+        try:
+
+            u = User.objects.get(username__exact=username)
+            u.set_password(password1)
+            u.save()
+            return redirect('/login')
+        except:
+            alert_u = True
+            return render(request, "change_password.html", {'info': ' Passwords do not match.', 'alert_u': alert_u})
 
     return render(request, "change_password.html")
 

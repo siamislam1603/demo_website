@@ -26,12 +26,22 @@ body{
             <input type="password" class="form-control" id="password" name="password">
           </div>
           <div class="d-flex justify-content-between align-items-center">
+            <div class="text-danger">{{info}} </div>
             <div class="text-white">Not registered? <a class='text-white text-decoration-underline' href="/register/">Sign up now!</a></div>
             <button type="submit" class="btn purple-btn">Login</button>
           </div>
-          <a class="text-cream" href='#'>Forgot Password?</a>
+          <a class="text-cream" href='/change_pass?'>Forgot Password?</a>
       </div>
       </form>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    {% if alert %}
+    alert('Please enter valid info.');
+    document.location = '';
+    {% endif %}
+</script>
 {% endblock %}

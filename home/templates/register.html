@@ -22,7 +22,7 @@ body{
                     <input type="text" class="form-control" id="username" name="username">
                 </div>
                 <div class="mb-3">
-                    <label for="first_nam" class="form-label text-white">First Name</label>
+                    <label for="first_name" class="form-label text-white">First Name</label>
                     <input type="text" class="form-control" id="first_name" name="first_name">
                 </div>
                 <div class="mb-3">
@@ -44,6 +44,7 @@ body{
                     </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-danger">{{info}} </div>
                     <div class="text-white">Already have an account? <a class='text-white text-decoration-underline' href="/login/">Log In</a></div>
                     <button type="submit" class="btn purple-btn">Sign Up</button>
                 </div>
@@ -51,4 +52,18 @@ body{
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    {% if alert %}
+    alert('Please enter valid info.');
+    document.location = '';
+    {% endif %}
+
+    {% if email %}
+    alert('Please enter valid email.');
+    document.location = '';
+    {% endif %}
+</script>
 {% endblock %}

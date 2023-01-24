@@ -49,6 +49,7 @@ class Marks_Of_User(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     score = models.FloatField()
+    time_taken = models.IntegerField(default=1)
 
     def __str__(self):
         return str(self.quiz)

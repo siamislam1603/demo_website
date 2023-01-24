@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block title %} Results {% endblock %}
+{% block quiz_active %} active {% endblock quiz_active %}
 
 {% block body %}
 <div class="container mt-4">
@@ -10,6 +11,7 @@
             <th>User</th>
             <th>Quiz</th>
             <th>Score</th>
+            <th>Time Taken(s)</th>
           </tr>
         </thead>
 {% for mark in marks %}
@@ -17,6 +19,7 @@
   <td>{{mark.user}}</td>
   <td>{{mark.quiz}}</td>
   <td>{{mark.score}}</td>
+  <td>{{mark.time_taken}}</td>
 </tr>
 {% endfor %}
 </table>

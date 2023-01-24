@@ -1,0 +1,140 @@
+{% extends 'base.html' %} 
+{% block title %} Verify OTP {% endblock %} 
+{% block css %} 
+body{ 
+    background: linear-gradient(0deg, rgba(0,168,150,1) 0%, rgba(2,147,151,1) 66%, rgba(5,102,154,1) 96%); height:100%;
+    background-repeat:no-repeat; 
+    background-attachment: fixed; 
+} 
+input { 
+    margin:0.5rem; 
+    max-width: 3rem; 
+    text-align: center; 
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    margin: 0; 
+} 
+{% endblock %} 
+{% block body %}
+
+<div
+  class="d-flex justify-content-center authentication-contianer align-items-center"
+>
+  <div class="authentication-card py-4 px-2">
+    <h1 class="text-white text-center">
+      Verify
+      <span class="text-black"
+        ><span class="text-underline-cream">OTP</span></span
+      >
+    </h1>
+    <form method="POST" id='verify-otp-form'>
+      {% csrf_token %}
+      <div class="container mt-3">
+        <div class="mb-3">
+          <div class="d-flex align-items-center justify-content-center">
+            <input
+              id="otp-first"
+              type="number"
+              min="0"
+              max="9"
+              step="1"
+              aria-label="first digit"
+              class="form-control"
+            />
+            <input
+              id="otp-second"
+              type="number"
+              min="0"
+              max="9"
+              step="1"
+              aria-label="second digit"
+              class="form-control"
+            />
+            <input
+              id="otp-third"
+              type="number"
+              min="0"
+              max="9"
+              step="1"
+              aria-label="third digit"
+              class="form-control"
+            />
+            <input
+              id="otp-fourth"
+              type="number"
+              min="0"
+              max="9"
+              step="1"
+              aria-label="fourth digit"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class='d-flex justify-content-center'>
+            <button type="submit" class="btn purple-btn btn-lg">Verify OTP</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} 
+{% block js %}
+<script>
+  let inputs = document.querySelectorAll("input");
+  let values = Array(4);
+  let clipData;
+  inputs[0].focus();
+
+  document.addEventListener('submit',function(e){
+    e.preventDefault();
+    verifyOTP();
+  })
+
+  const verifyOTP=()=>{
+    console.log(values.filter(val=>val).join(''),'submit otp');
+  }
+
+  inputs.forEach((tag, index) => {
+    tag.addEventListener("keyup", (event) => {
+      if (event.code === "Backspace" && hasNoValue(index)) {
+        if (index > 0) inputs[index - 1].focus();
+      }
+
+      //else if any input move focus to next or out
+      else if (tag.value !== "") {
+        index < inputs.length - 1 ? inputs[index + 1].focus() : tag.blur();
+      }
+
+      //add val to array to track prev vals
+      values[index] = event.target.value;
+    });
+
+    tag.addEventListener("input", () => {
+      //replace digit if already exists
+      if (tag.value > 10) {
+        tag.value = tag.value % 10;
+      }
+    });
+
+    tag.addEventListener("paste", (event) => {
+      event.preventDefault();
+      clipData = event.clipboardData.getData("text/plain").split("");
+      filldata(index);
+    });
+  });
+
+  function filldata(index) {
+    for (let i = index; i < inputs.length; i++) {
+      inputs[i].value = clipData.shift();
+    }
+  }
+
+  function hasNoValue(index) {
+    if (values[index] || values[index] === 0) return false;
+
+    return true;
+  }
+</script>
+{% endblock %}
