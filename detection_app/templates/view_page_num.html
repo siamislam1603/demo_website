@@ -55,6 +55,12 @@ hr {
   margin: auto;
   width: 40%;
 }
+
+.custom-img {
+  width: 100%;
+  height: 100%;
+  object-position:center;
+}
 {% endblock %}
 {% block body %}
 
@@ -64,8 +70,8 @@ hr {
   <!--  </div>-->
   <div class="container mt-3">
       <div class="row">
-        <div class="col-md-4">
-          <img src="/media/{{det.image_1}}" class="img-fluid" alt="...">
+        <div class="col-md-4" id='resizeable-first-img'>
+          <img src="/media/{{det.image_1}}" class="custom-img" alt="...">
         </div>
         <div class="col-md-8 mb-5">
           <div class='fw-600 view-details-title overflow-text clamp-1'>Lorem ipsum dolor sit amet.</div>
@@ -75,15 +81,15 @@ hr {
           <div class='fw-600 view-details-title overflow-text clamp-1'>Lorem ipsum dolor sit amet.</div>
           <small class="text-muted fs-6 overflow-text clamp-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id consectetur repudiandae eveniet asperiores minus commodi odit iste quae libero! Quis voluptatum inventore rerum enim provident nihil, consequatur ad maiores minus!</small>
         </div>
-        <div class="col-md-4">
-          <video class="ratio ratio-4x3" autoplay muted>
+        <div class="col-md-4" id='resizeable-video'>
+          <video class="w-100 h-100" autoplay muted>
             <source src="/media/{{det.video}}" type="video/mp4">
           <!--  <source src="movie.ogg" type="video/ogg">-->
     <!--        Your browser does not support the video tag.-->
             </video>
         </div>
-        <div class="col-md-4">
-          <img src="/media/{{det.image_2}}" class="img-fluid" alt="...">
+        <div class="col-md-4" id='resizeable-second-img'>
+          <img src="/media/{{det.image_2}}" class="custom-img" alt="...">
         </div>
         <div class="col-md-8">
           <div class='fw-600 view-details-title overflow-text clamp-1'>Lorem ipsum dolor sit amet.</div>
