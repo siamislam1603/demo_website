@@ -1,7 +1,3 @@
 # Default ignored files
 /shelf/
 /workspace.xml
-../bdsl_res50_9877.pth
-../model_resnet50_characters.h5
-../model_VGG19_digit.h5
-../model_Xception_characters.h5
